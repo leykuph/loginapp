@@ -1,0 +1,23 @@
+spring:
+  # Database connection settings
+  datasource:
+    url: jdbc:postgresql://localhost:5432/loginapp
+    username: elleco  # Replace with your PostgreSQL username
+    password:   # Replace with your PostgreSQL password
+  
+  # JPA/Hibernate settings
+  jpa:
+    hibernate:
+      # update: updates schema if it changes (good for development)
+      # create-drop: drops and recreates on startup (use carefully!)
+      # validate: only validates, doesn't change schema (use in production)
+      ddl-auto: update
+    show-sql: true  # Logs SQL queries to console (helpful for learning)
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true  # Pretty-prints SQL
+
+# Server port (default is 8080)
+server:
+  port: 8080
