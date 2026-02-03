@@ -3,7 +3,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/loginapp
     username: elleco  # Replace with your PostgreSQL username
-    password:   # Replace with your PostgreSQL password
+    password: devpassword # Replace with your PostgreSQL password
   
   # JPA/Hibernate settings
   jpa:

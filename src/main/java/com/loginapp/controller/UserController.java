@@ -1,5 +1,4 @@
 package com.loginapp.controller;
-
 import com.loginapp.model.User;
 import com.loginapp.repository.UserRepository;
 import org.springframework.http.HttpStatus;
@@ -47,6 +46,26 @@ public class UserController {
                 "id", user.getId(),
                 "username", user.getUsername()
         ));
+    }
+
+    public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
+        String username = body.get("username");
+        String password = body.get("password");
+        if (username == null || username.isBlank() || password == null || password.isBlank()) {
+            return ResponseEntity.badRequest().body("username and password required");
+        }
+        return userRepository.findByUsername(username)
+                .map(user -> {
+                    if (passwordEncoder.matches(password, user.getPasswordHash())) {
+                        return ResponseEntity.ok(Map.of(
+                                "id", user.getId(),
+                                "username", user.getUsername()
+                        ));
+                    } else {
+                        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid credentials");
+                    }
+                })
+                .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid credentials"));
     }
 
     /**

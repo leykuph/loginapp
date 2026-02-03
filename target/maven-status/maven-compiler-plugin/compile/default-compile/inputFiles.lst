@@ -1,6 +1,6 @@
-/Users/elleco/spring-login-app/src/main/java/com/loginapp/repository/UserRepository.java
-/Users/elleco/spring-login-app/src/main/java/com/loginapp/LoginAppApplication.java
-/Users/elleco/spring-login-app/src/main/java/com/loginapp/controller/UserController.java
-/Users/elleco/spring-login-app/src/main/java/com/loginapp/controller/HelloController.java
-/Users/elleco/spring-login-app/src/main/java/com/loginapp/model/User.java
-/Users/elleco/spring-login-app/src/main/java/com/loginapp/config/SecurityConfig.java
+/home/leykuph/Documents/GitHub/loginapp/src/main/java/com/loginapp/LoginAppApplication.java
+/home/leykuph/Documents/GitHub/loginapp/src/main/java/com/loginapp/repository/UserRepository.java
+/home/leykuph/Documents/GitHub/loginapp/src/main/java/com/loginapp/controller/UserController.java
+/home/leykuph/Documents/GitHub/loginapp/src/main/java/com/loginapp/model/User.java
+/home/leykuph/Documents/GitHub/loginapp/src/main/java/com/loginapp/controller/HelloController.java
+/home/leykuph/Documents/GitHub/loginapp/src/main/java/com/loginapp/config/SecurityConfig.java
