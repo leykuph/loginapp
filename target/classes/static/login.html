@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Login</title>
+
+<style>
+:root {
+  /* OC palette */
+  --bg-main: #1A1626;
+  --bg-card: #221C34;
+  --bg-input: #2A2342;
+
+  --accent-purple: #AF87D7;
+  --accent-orange: #E19B5A;
+
+  --text-main: #F5F0FA;
+  --text-muted: #C7BDD9;
+  --text-error: #E85A6A;
+
+  --radius: 14px;
+}
+
+/* ---------- Global ---------- */
+* {
+  box-sizing: border-box;
+  font-family:
+    "JetBrainsMono Nerd Font",
+    "JetBrainsMono",
+    monospace;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(
+    circle at top,
+    #2B2245,
+    var(--bg-main)
+  );
+  color: var(--text-main);
+}
+
+/* ---------- Card ---------- */
+.login-card {
+  width: 340px;
+  padding: 28px;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.45),
+    inset 0 0 0 1px rgba(175,135,215,0.12);
+}
+
+/* ---------- Title ---------- */
+.login-title {
+  text-align: center;
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+  background: linear-gradient(
+    90deg,
+    var(--accent-purple),
+    var(--accent-orange)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---------- Error Toast ---------- */
+.error-toast {
+  display: none;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #2b1d20;
+  border: 1px solid var(--text-error);
+  color: var(--text-error);
+  padding: 16px 24px;
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  font-weight: 600;
+  z-index: 1000;
+  animation: slideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes slideIn {
+  0% { opacity: 0; transform: translateX(50px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+/* ---------- Inputs ---------- */
+.input-group {
+  margin-bottom: 14px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  background: var(--bg-input);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: var(--text-main);
+  font-size: 0.95rem;
+}
+
+input::placeholder {
+  color: var(--text-muted);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 0 2px rgba(175,135,215,0.25);
+}
+
+/* ---------- Button ---------- */
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background: linear-gradient(
+    135deg,
+    var(--accent-purple),
+    var(--accent-orange)
+  );
+  border: none;
+  border-radius: 12px;
+  color: #1A1208;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(225,155,90,0.35);
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.footer a {
+  color: var(--accent-orange);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+</style>
+</head>
+
+<body>
+  <!-- Error Toast -->
+  <div id="error-toast" class="error-toast"></div>
+
+  <div class="login-card">
+    <div class="login-title">Login</div>
+
+    <form id="login-form">
+      <div class="input-group">
+        <input type="text" id="username" placeholder="Username" required />
+      </div>
+
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Password" required />
+      </div>
+
+      <button type="submit">Sign In</button>
+    </form>
+
+    <div class="footer">
+      No account? <a href="register.html">Register</a>
+    </div>
+  </div>
+
+<script src="js/auth.js"></script>
+<script>
+  Auth.checkLoggedIn();
+
+  const errorToast = document.getElementById('error-toast');
+
+  function showError(msg) {
+    errorToast.textContent = msg;
+    errorToast.style.display = 'block';
+    
+    // Auto hide after 5 seconds
+    setTimeout(() => {
+        errorToast.style.display = 'none';
+    }, 5000);
+  }
+
+  document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    const result = await Auth.login(username, password);
+
+    if (result.success) {
+      window.location.href = 'index.html';
+    } else {
+      showError(result.message);
+    }
+  });
+</script>
+</body>
+</html>

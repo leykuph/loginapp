@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Register</title>
+
+<style>
+:root {
+  /* Palette */
+  --bg-main: #1A1626;
+  --bg-card: #221C34;
+  --bg-input: #2A2342;
+
+  --accent-purple: #AF87D7;
+  --accent-orange: #E19B5A;
+
+  --text-main: #F5F0FA;
+  --text-muted: #C7BDD9;
+  --text-error: #E85A6A;
+
+  --radius: 14px;
+}
+
+/* ---------- Global ---------- */
+* {
+  box-sizing: border-box;
+  font-family:
+    "JetBrainsMono Nerd Font",
+    "JetBrainsMono",
+    monospace;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(
+    circle at top,
+    #2B2245,
+    var(--bg-main)
+  );
+  color: var(--text-main);
+}
+
+/* ---------- Card ---------- */
+.register-card {
+  width: 340px;
+  padding: 28px;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.45),
+    inset 0 0 0 1px rgba(175,135,215,0.12);
+}
+
+/* ---------- Title ---------- */
+.register-title {
+  text-align: center;
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+  background: linear-gradient(
+    90deg,
+    var(--accent-purple),
+    var(--accent-orange)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---------- Toast Container ---------- */
+#toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ---------- Error Toast ---------- */
+.error-toast {
+  background: #2b1d20;
+  border: 1px solid var(--text-error);
+  color: var(--text-error);
+  padding: 14px 20px;
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  font-weight: 600;
+  width: 300px;
+  animation: slideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes slideIn {
+  0% { opacity: 0; transform: translateX(50px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(50px); }
+}
+
+/* ---------- Inputs ---------- */
+.input-group {
+  margin-bottom: 14px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  background: var(--bg-input);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: var(--text-main);
+  font-size: 0.95rem;
+}
+
+input::placeholder {
+  color: var(--text-muted);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 0 2px rgba(175,135,215,0.25);
+}
+
+/* ---------- Button ---------- */
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background: linear-gradient(
+    135deg,
+    var(--accent-purple),
+    var(--accent-orange)
+  );
+  border: none;
+  border-radius: 12px;
+  color: #1A1208;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(225,155,90,0.35);
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.footer a {
+  color: var(--accent-orange);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+</style>
+</head>
+
+<body>
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <div class="register-card">
+    <div class="register-title">Register</div>
+
+    <form id="register-form">
+      <div class="input-group">
+        <input type="text" id="username" placeholder="Username" required />
+      </div>
+
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Password" required />
+      </div>
+
+      <div class="input-group">
+        <input type="password" id="confirm-password" placeholder="Confirm Password" required />
+      </div>
+      <button type="submit">Create Account</button>
+    </form>
+
+    <div class="footer">
+      Already have an account? <a href="login.html">Login</a>
+    </div>
+  </div>
+
+<script src="js/auth.js"></script>
+<script>
+  const toastContainer = document.getElementById('toast-container');
+
+  function showError(msg) {
+    const toast = document.createElement('div');
+    toast.className = 'error-toast';
+    toast.textContent = msg;
+    
+    toastContainer.appendChild(toast);
+
+    // Auto hide after 5 seconds
+    setTimeout(() => {
+        toast.style.animation = 'fadeOut 0.3s forwards';
+        toast.addEventListener('animationend', () => {
+            toast.remove();
+        });
+    }, 5000);
+  }
+
+  document.getElementById('register-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+
+    if (password !== confirmPassword) {
+      showError("Passwords do not match");
+      return;
+    }
+
+    const result = await Auth.register(username, password);
+
+    if (result.success) {
+      window.location.href = 'login.html';
+    } else {
+      showError(result.message);
+    }
+  });
+</script>
+</body>
+</html>

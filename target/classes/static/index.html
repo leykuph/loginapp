@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Home</title>
+
+<style>
+:root {
+  /* OC palette */
+  --bg-main: #1A1626;
+  --bg-card: #221C34;
+  --bg-soft: #2A2342;
+
+  --accent-purple: #AF87D7;
+  --accent-orange: #E19B5A;
+  --accent-danger: #E85A6A;
+
+  --text-main: #F5F0FA;
+  --text-muted: #C7BDD9;
+
+  --radius: 14px;
+}
+
+/* ---------- Global ---------- */
+* {
+  box-sizing: border-box;
+  font-family:
+    "JetBrainsMono Nerd Font",
+    "JetBrainsMono",
+    monospace;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(
+    circle at top,
+    #2B2245,
+    var(--bg-main)
+  );
+  color: var(--text-main);
+}
+
+/* ---------- Card ---------- */
+.home-card {
+  width: 420px;
+  padding: 30px;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  text-align: center;
+  box-shadow:
+    0 12px 34px rgba(0,0,0,0.5),
+    inset 0 0 0 1px rgba(175,135,215,0.12);
+}
+
+/* ---------- Title ---------- */
+.home-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  background: linear-gradient(
+    90deg,
+    var(--accent-purple),
+    var(--accent-orange)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---------- Text ---------- */
+.home-text {
+  color: var(--text-muted);
+  margin-bottom: 22px;
+}
+
+.home-text strong {
+  color: var(--text-main);
+}
+
+.home-note {
+  font-size: 0.8rem;
+  opacity: 0.75;
+  margin-bottom: 26px;
+}
+
+/* ---------- Button ---------- */
+button {
+  padding: 12px 26px;
+  background: linear-gradient(
+    135deg,
+    var(--accent-danger),
+    #B63A47
+  );
+  color: #FFF;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(232,90,106,0.4);
+}
+</style>
+</head>
+
+<body>
+  <div class="home-card">
+    <div class="home-title">Welcome</div>
+
+    <div class="home-text">
+      Congrats <strong id="username-display"></strong>,  
+      you logged in successfully!
+    </div>
+
+    <div class="home-note">
+      Only authenticated users can see this page.
+    </div>
+
+    <button onclick="Auth.logout()">Logout</button>
+  </div>
+
+<script src="js/auth.js"></script>
+<script>
+  // Protect this page
+  Auth.requireAuth();
+
+  // Display username
+  document.getElementById('username-display').textContent = Auth.getUsername();
+</script>
+</body>
+</html>
